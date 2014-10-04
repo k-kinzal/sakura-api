@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "65150f089e90aef267a2f4d9f80dc199",
+    "hash": "ceb48914fde3028f6227c913d75e5cae",
     "packages": [
         {
             "name": "slim/slim",
@@ -55,16 +55,16 @@
     "packages-dev": [
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v18",
+            "version": "v44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "72b57a13a77cb48f3cfe7abce6c012921cb1d9d0"
+                "reference": "14d0adc72b0d1c746f71c288e732cb016937bdd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/72b57a13a77cb48f3cfe7abce6c012921cb1d9d0",
-                "reference": "72b57a13a77cb48f3cfe7abce6c012921cb1d9d0",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/14d0adc72b0d1c746f71c288e732cb016937bdd1",
+                "reference": "14d0adc72b0d1c746f71c288e732cb016937bdd1",
                 "shasum": ""
             },
             "bin": [
@@ -95,7 +95,7 @@
                 "nginx",
                 "php"
             ],
-            "time": "2014-05-21 10:44:59"
+            "time": "2014-10-03 15:58:25"
         }
     ],
     "aliases": [],

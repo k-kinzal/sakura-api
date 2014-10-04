@@ -1,22 +1,19 @@
 <?php
-
-require('../vendor/autoload.php');
-
-$app = new Silex\Application();
-$app['debug'] = true;
-
-// Register the monolog logging service
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => 'php://stderr',
+// loader
+$loader = require('../vendor/autoload.php');
+// application
+$app = new \Slim\Slim();
+// config
+$app->config(array(
+	'debug' => true,
+  'templates.path' => '../templates'
 ));
-
-// Our web handlers
-
+// routing
 $app->get('/', function() use($app) {
-  $app['monolog']->addDebug('logging output.');
-  return 'Hello';
+	$app->render('json.php', array());
 });
-
+$app->get('/:name', function($name) use($app) {
+	$app->render('json.php', array('name' => $name));
+});
+// run application
 $app->run();
-
-?>
