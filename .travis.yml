@@ -1,0 +1,14 @@
+language: php
+php:
+- '5.5'
+script:
+- php -l public/index.php
+deploy:
+  provider: heroku
+  api_key:
+    secure: YMtda15BBPUS/VV69wYRCsUfYEoVCNVmpTMNj3WJe8g3baGgvwagZ84Q4wqPOmJjkAtSf4Eg7njLfkYEEwA+hZsJZa8wlZWH6o+vI2CP7zreuUjORtEIpkvWYycjkNmESBJdV8YY88D+aGUZkcQl0kIUAFs0JD6Cz7iTtDmdQ8s=
+  app: sakura-api
+  on:
+    repo: k-kinzal/sakura-api
+    branch: master
+    tags: true
