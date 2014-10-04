@@ -48,11 +48,14 @@ $app->config(array(
 ));
 // routing
 $app->get('/:name', function($name) use ($app) {
-	$app->render('json.php', array('name' => $name));
+	$value = $app->queue->dequeue($name);
+
+	$app->render('json.php', $value);
 });
 $app->post('/:name', function($name) use ($app) {
 	$value = json_decode($app->request->getBody(), true);
 	if (empty($value)) {
+		// TODO: creaet validate exception
 		throw new \Exception();
 	}
 	$app->queue->enqueue($name, $value);
