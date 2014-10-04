@@ -74,7 +74,7 @@ $app->get('/:name', function($name) use ($app) {
 
 	$app->view->clear(); // remove scrap data
 	$app->render('json.php', $value);
-});
+})->conditions(['name' => '.+']);;
 //-- post json
 $app->post('/:name', function($name) use ($app) {
 	$value = json_decode($app->request->getBody(), true);
@@ -83,6 +83,6 @@ $app->post('/:name', function($name) use ($app) {
 		throw new \Exception();
 	}
 	$app->queue->enqueue($name, $value);
-});
+})->conditions(['name' => '.+']);;
 // run application
 $app->run();
