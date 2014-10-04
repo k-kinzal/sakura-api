@@ -1,9 +1,22 @@
 {
   "require" : {
+    "ext-mongo": "*",
     "silex/silex": "~1.1",
     "monolog/monolog": "~1.7"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
+  },
+  "extra": {
+      "heroku": {
+          "document-root": "public",
+          "index-document": "index.php",
+          "engines": {
+					    "php": "5.5.*",
+					    "nginx": "1.4.*"
+					},
+					"php-config": [
+					]
+      }
   }
 }
