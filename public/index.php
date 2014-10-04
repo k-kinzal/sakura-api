@@ -51,6 +51,11 @@ $app->get('/:name', function($name) use ($app) {
 	$app->render('json.php', array('name' => $name));
 });
 $app->post('/:name', function($name) use ($app) {
+	$value = json_decode($app->request->getBody(), true);
+	if (empty($value)) {
+		throw new \Exception();
+	}
+	$app->queue->enqueue($name, $value);
 });
 // run application
 $app->run();
