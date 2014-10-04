@@ -10,5 +10,6 @@ deploy:
   app: sakura-api
   on:
     repo: k-kinzal/sakura-api
+    all_branches: true
     branch: master
     tags: true
