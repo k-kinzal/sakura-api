@@ -5,7 +5,7 @@ $loader = require('../vendor/autoload.php');
 $app = new \Slim\Slim();
 // config
 $app->config(array(
-	'debug' => true,
+	'debug' => false,
   'templates.path' => '../templates'
 ));
 // service
