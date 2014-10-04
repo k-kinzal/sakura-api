@@ -3,6 +3,11 @@
 $loader = require('../vendor/autoload.php');
 // application
 $app = new \Slim\Slim();
+// config
+$app->config(array(
+	'debug' => true,
+  'templates.path' => '../templates'
+));
 // service
 $app->container->singleton('mongo', function () {
     // connect to Compose assuming your MONGOHQ_URL environment
@@ -33,29 +38,36 @@ $app->container->singleton('queue', function () use ($app) {
 
     	public function dequeue($name) {
     		$collection = $this->mongo->selectCollection($name);
-    		$value = $collection->findOne();
-    		$collection->remove(['_id' => $value['_id']]);
+
+    		try {
+	    		$value = $collection->findAndModify(null, null, null, [
+	    			'remove' => true,
+	    		]);
+	    	} catch (\Exception $e) {
+	    		$value = false;
+	    	}
+
     		return $value;
+    	}
+
+    	public function dequeueAll($name, $limit = INT_MAX) {
+    		$values = [];
+    		while ($limit-- > 0 && $value = $this->dequeue($name)) {
+    			$values[] = $value;
+    		}
+
+    		return $values;
     	}
     }
 
     return new Queue($app->mongo);
 });
-// config
-$app->config(array(
-	'debug' => true,
-  'templates.path' => '../templates'
-));
 // routing
 $app->get('/:name', function($name) use ($app) {
-	$value = $app->queue->dequeue($name);
-	if (empty($value)) {
-		// TODO: create nocontent exception
-		throw new \Exception();
-	}
+	$value = $app->queue->dequeueAll($name, 10);
 
 	$app->view->clear();
-	$app->render('json.php', [$value]);
+	$app->render('json.php', $value);
 });
 $app->post('/:name', function($name) use ($app) {
 	$value = json_decode($app->request->getBody(), true);
