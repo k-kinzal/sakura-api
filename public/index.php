@@ -66,7 +66,11 @@ $app->get('/', function() use ($app) {
 });
 //-- get json
 $app->get('/:name', function($name) use ($app) {
-	$value = $app->queue->dequeueAll($name, 10);
+	$value = $app->queue->dequeue($name);
+	if (empty($value)) {
+		$app->response()->status(204);
+		return;
+	}
 
 	$app->view->clear(); // remove scrap data
 	$app->render('json.php', $value);
