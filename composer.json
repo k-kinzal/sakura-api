@@ -1,5 +1,6 @@
 {
   "require" : {
+  	"ext-newrelic": "*",
   	"ext-mongo": "*",
     "slim/slim": "~2.4.3"
   },
