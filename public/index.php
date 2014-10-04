@@ -25,8 +25,6 @@ $app->config(array(
 ));
 // routing
 $app->get('/:name', function($name) use($app) {
-	$mongo = $app->mongo;
-	var_dump($mongo);
 	$app->render('json.php', array('name' => $name));
 });
 $app->post('/:name', function($name) use($app) {
