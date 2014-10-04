@@ -9,11 +9,10 @@ $app->config(array(
   'templates.path' => '../templates'
 ));
 // routing
-$app->get('/', function() use($app) {
-	$app->render('json.php', array());
-});
 $app->get('/:name', function($name) use($app) {
 	$app->render('json.php', array('name' => $name));
+});
+$app->post('/:name', function($name) use($app) {
 });
 // run application
 $app->run();
