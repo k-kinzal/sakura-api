@@ -49,8 +49,13 @@ $app->config(array(
 // routing
 $app->get('/:name', function($name) use ($app) {
 	$value = $app->queue->dequeue($name);
+	if (empty($value)) {
+		// TODO: create nocontent exception
+		throw new \Exception();
+	}
 
-	$app->render('json.php', $value);
+	$app->view->clear();
+	$app->render('json.php', [$value]);
 });
 $app->post('/:name', function($name) use ($app) {
 	$value = json_decode($app->request->getBody(), true);
