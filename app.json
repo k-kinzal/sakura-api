@@ -1,0 +1,16 @@
+{
+  "name": "sakura api",
+  "description": "Sakura Api",
+  "keywords": [
+    "ukagaka",
+    "ssp",
+    "sakura",
+    "unyu",
+    "api"
+  ],
+  "addons": [
+    "mongohq:sandbox",
+    "newrelic:wayne"
+  ],
+  "env": {}
+}
