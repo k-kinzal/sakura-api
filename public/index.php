@@ -18,16 +18,39 @@ $app->container->singleton('mongo', function () {
 
     return $db;
 });
+$app->container->singleton('queue', function () use ($app) {
+    class Queue {
+    	protected $mongo;
+
+    	public function __construct($mongo) {
+    		$this->mongo = $mongo;
+    	}
+
+    	public function enqueue($name, $value) {
+    		$collection = $this->mongo->selectCollection($name);
+    		$collection->insert($value);
+    	}
+
+    	public function dequeue($name) {
+    		$collection = $this->mongo->selectCollection($name);
+    		$value = $collection->findOne();
+    		$collection->remove(['_id' => $value['_id']]);
+    		return $value;
+    	}
+    }
+
+    return new Queue($app->mongo);
+});
 // config
 $app->config(array(
 	'debug' => true,
   'templates.path' => '../templates'
 ));
 // routing
-$app->get('/:name', function($name) use($app) {
+$app->get('/:name', function($name) use ($app) {
 	$app->render('json.php', array('name' => $name));
 });
-$app->post('/:name', function($name) use($app) {
+$app->post('/:name', function($name) use ($app) {
 });
 // run application
 $app->run();
