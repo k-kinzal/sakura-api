@@ -1,32 +1,59 @@
-# php-getting-started
+# sakura-api
 
-A barebones PHP app that makes use of the [Silex](http://silex.sensiolabs.org/) web framework, which can easily be deployed to Heroku.
+---
 
-This application support the [Getting Started with PHP on Heroku](https://devcenter.heroku.com/articles/getting-started-with-php) article - check it out.
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)  
 
-## Running Locally
+[![Build Status](https://travis-ci.org/k-kinzal/sakura-api.svg?branch=master)](https://travis-ci.org/k-kinzal/sakura-api)
 
-Make sure you have PHP, Apache and Composer installed.  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+sakura api stocks json payloads. or the reponse of the stocked json carried out.
 
-```sh
-$ git clone git@github.com:heroku/php-getting-started.git # or clone your own fork
-$ cd php-getting-started
-$ composer update
-$ foreman start web
-```
+## Get started
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Click a deploy button. 
 
-## Deploying to Heroku
+## Ukagaka
 
-```
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
+[うさださくら - http://usada.sakura.vg/]( http://usada.sakura.vg/)(jp)
 
-## Documentation
+### Windows
 
-For more information about using PHP on Heroku, see these Dev Center articles:
+Install [SSP](http://ssp.shillest.net/).
 
-- [PHP on Heroku](https://devcenter.heroku.com/categories/php)
+### Mac
+
+Install [Wine Botter](http://winebottler.kronenberg.org/) and [SSP](http://ssp.shillest.net/).
+
+[WineBotterでSSPを起動する with さくら - http://qiita.com/kinzal/items/2103f423c43d9ea5feb9](http://qiita.com/kinzal/items/2103f423c43d9ea5feb9)(jp)
+
+## Webhook
+
+    http://[:hostname]/[:tag-name]
+
+URL is specified. (e.g. ```http://sakura-api.herokuapp.com/github.com/k-kinzal/sakura-api```)
+```[:hostname]``` specifies URL which carried out deploy to Heroku.
+```[:tag-name]``` should specify an identifier. the character which can be used is set to ```.+```.
+
+## Client
+
+Install [fluentd](http://www.fluentd.org/) and [fluent-plugin-sstp](https://github.com/bash0C7/fluent-plugin-sstp).
+
+````
+<source>
+  type exec
+  command curl -sS http://sakura-api.herokuapp.com/github.com/k-kinzal/sakura-api
+  format json
+  tag sakura.github.sakura-api
+  run_interval 10s
+</source>
+
+<match sakura.github.sakura-api>
+  type sstp
+  sstp_server     127.0.0.1
+  sstp_port       9801
+  request_method  NOTIFY
+  request_version SSTP/1.1
+  sender          sakura-api
+  script_template \0<%= record['pusher']['name'] %>が<%= record['repository']['full_name'] %>の<%= record['ref'] %>にpushしたよ\w9\w9\u\s[11]これはテストがコケるな\w9\h\s[4]\n\nええー\e
+</match>
+````
